@@ -49,9 +49,9 @@ public class UniversalMessageListener implements BeanNameAware {
         if (message.getClass() == ActiveMQObjectMessage.class) {
             try {
                 ActiveMQObjectMessage activeMQObjectMessage = (ActiveMQObjectMessage) message;
-                //User user = (User) activeMQObjectMessage.getObject();
-                ObjectMessage receivedMessage=(ObjectMessage) jmsTemplate.receive();
-                User user = (User) receivedMessage.getObject();
+                User user = (User) activeMQObjectMessage.getObject();
+                //ObjectMessage receivedMessage=(ObjectMessage) jmsTemplate.receive();
+                //User user = (User) receivedMessage.getObject();
                 //JOptionPane.showMessageDialog(null, " >>> Listener INFO: Received object user GSON = " + gson.toJson(user), "info", JOptionPane.ERROR_MESSAGE); 
                 System.out.println(" >>> Listener INFO: Received object user GSON = " + gson.toJson(user));
                 //System.out.println(" >>> Listener INFO: Received object user GSON = " + message.getClass().getName());
