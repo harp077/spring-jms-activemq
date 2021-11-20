@@ -8,12 +8,14 @@ import jennom.jms.MessageSenderObj;
 import jennom.jms.MessageSenderTxt;
 import jennom.jms.User;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
 @Scope("singleton")
+@DependsOn(value = {"txtSender", "objSender", "universalMessageListener"})
 public class MainGo extends javax.swing.JFrame {
     
     private User user;
@@ -31,13 +33,14 @@ public class MainGo extends javax.swing.JFrame {
             user=new User();
             user.setLogin("oo"+i+i);
             user.setPassw("oo"+i+i);
-            objSender.sendMessage("harp07", user); 
+            objSender.sendMessage("harp07qq", user); 
         }      
         for(int i=1; i < 10; ++i) {
             user=new User();
             user.setLogin("tt"+i+i);
             user.setPassw("tt"+i+i);
-            txtSender.sendMessage("harp07", gson.toJson(user)); 
+            txtSender.sendMessage("harp07qq", gson.toJson(user)); 
+            //txtSender.sendMessage("harp07tt", gson.toJson(user));
         }                 
 
     }
@@ -45,7 +48,7 @@ public class MainGo extends javax.swing.JFrame {
     public synchronized static void main(String args[]) {
         AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(AppContext.class);
         ctx.registerShutdownHook();
-        System.out.println("Enter 'stop' to close");
+        //System.out.println("Enter 'stop' to close");
         Scanner sc = new Scanner(System.in);
         new Thread(() -> {
             while (true) {
@@ -56,5 +59,6 @@ public class MainGo extends javax.swing.JFrame {
                 }
             }
         }).start();
+        System.out.println("Enter 'stop' to close");
     }
 }

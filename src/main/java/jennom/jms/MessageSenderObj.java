@@ -1,23 +1,42 @@
 package jennom.jms;
 
 import com.google.gson.Gson;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component("objSender")
-public class MessageSenderObj { //implements MessageSender {
+@DependsOn(value = {"universalMessageListener"})
+public class MessageSenderObj implements BeanNameAware { //implements MessageSender {
     
+    private String myName;
     @Inject
     private Gson gson;
     @Inject
     private JmsTemplate jmsTemplate;
+    
+    @Override
+    public void setBeanName(String bname) {
+       this.myName=bname; 
+       //System.out.println("my name is = " + this.myName);
+    }    
+    
+    @PostConstruct
+    public void afterBirn() {
+        System.out.println("my name is = " + this.myName);
+    }    
 
     //@Override
+    @Async
     public void sendMessage(String destinationNameQ, User user) {
-        jmsTemplate.setDeliveryDelay(555L);
+        //jmsTemplate.setDeliveryDelay(555L);
         this.jmsTemplate.convertAndSend(destinationNameQ, user);
         //loggerBean.info(" >>> Sending obj user = " + gson.toJson(user));
         System.out.println(" >>> Sending obj user GSON = " + gson.toJson(user));
     }
+
 }
