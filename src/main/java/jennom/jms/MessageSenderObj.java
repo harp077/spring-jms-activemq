@@ -1,8 +1,10 @@
 package jennom.jms;
 
 import com.google.gson.Gson;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import jennom.iface.ISDTF;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.jms.core.JmsTemplate;
@@ -37,6 +39,7 @@ public class MessageSenderObj implements BeanNameAware { //implements MessageSen
         this.jmsTemplate.convertAndSend(destinationNameQ, user);
         //loggerBean.info(" >>> Sending obj user = " + gson.toJson(user));
         System.out.println(" >>> Sending obj user GSON = " + gson.toJson(user));
+        System.out.println(" >>> Sending obj user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
     }
 
 }

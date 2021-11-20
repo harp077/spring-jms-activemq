@@ -1,11 +1,13 @@
 package jennom.jms;
 
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import jennom.iface.ISDTF;
 import org.apache.activemq.ScheduledMessage;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.context.annotation.DependsOn;
@@ -42,6 +44,7 @@ public class MessageSenderTxt implements BeanNameAware { //implements MessageSen
             TextMessage jmsMessage = session.createTextMessage(message);
             jmsMessage.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 9999);
             System.out.println(">>> Sending txt user: " + jmsMessage.getText());
+            System.out.println(">>> Sending txt user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
             return jmsMessage;
         });
     }

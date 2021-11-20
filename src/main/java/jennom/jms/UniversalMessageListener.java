@@ -1,6 +1,7 @@
 package jennom.jms;
 
 import com.google.gson.Gson;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.jms.JMSException;
@@ -14,6 +15,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Async;
 import javax.swing.JOptionPane;
+import jennom.iface.ISDTF;
 
 @Component
 public class UniversalMessageListener implements BeanNameAware {
@@ -40,6 +42,7 @@ public class UniversalMessageListener implements BeanNameAware {
     @JmsListener(destination = "harp07qq", containerFactory = "jmsListenerContainerFactory")
     public void onMessage(Object message) {
         System.out.println(" >>> Listener INFO: Received object = " + message.getClass().getName());
+        System.out.println(" >>> Listener INFO: Received thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
         //if (message.getClass().getName().equals("jennom.jms.User")) {
         //if (message instanceof User) { 
         if (message.getClass() == ActiveMQObjectMessage.class) {
@@ -48,7 +51,7 @@ public class UniversalMessageListener implements BeanNameAware {
                 //User user = (User) ActiveMQObjectMessage.getObject();
                 ObjectMessage receivedMessage=(ObjectMessage) jmsTemplate.receive();
                 User user = (User) receivedMessage.getObject();
-                JOptionPane.showMessageDialog(null, " >>> Listener INFO: Received object user GSON = " + gson.toJson(user), "info", JOptionPane.ERROR_MESSAGE); 
+                //JOptionPane.showMessageDialog(null, " >>> Listener INFO: Received object user GSON = " + gson.toJson(user), "info", JOptionPane.ERROR_MESSAGE); 
                 System.out.println(" >>> Listener INFO: Received object user GSON = " + gson.toJson(user));
                 //System.out.println(" >>> Listener INFO: Received object user GSON = " + message.getClass().getName());
             } catch (JMSException | NullPointerException je) {
@@ -61,7 +64,7 @@ public class UniversalMessageListener implements BeanNameAware {
             try {
                 User user = gson.fromJson(textMessage.getText(), User.class );
                 //System.out.println("objListener INFO: >>> Received: " + textMessage.getText());
-                JOptionPane.showMessageDialog(null, " >>> Listener INFO: Received object user GSON = " + gson.toJson(user), "info", JOptionPane.ERROR_MESSAGE); 
+                //JOptionPane.showMessageDialog(null, " >>> Listener INFO: Received object user GSON = " + gson.toJson(user), "info", JOptionPane.ERROR_MESSAGE); 
                 System.out.println(" >>> Listener INFO: Received text user GSON = " + gson.toJson(user));
                 //System.out.println(" >>> Listener INFO: Received object user GSON = " + message.getClass().getName());
             } catch (JMSException ex) {
