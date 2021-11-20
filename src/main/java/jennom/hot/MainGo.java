@@ -3,6 +3,7 @@ package jennom.hot;
 import com.google.gson.Gson;
 import java.util.Scanner;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import jennom.jms.MessageSenderObj;
 import jennom.jms.MessageSenderTxt;
@@ -44,6 +45,11 @@ public class MainGo extends javax.swing.JFrame {
         }                 
 
     }
+    
+    @PreDestroy
+    public void beforeKill() {
+       System.out.println("stop application..........."); 
+    }    
 
     public synchronized static void main(String args[]) {
         AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(AppContext.class);

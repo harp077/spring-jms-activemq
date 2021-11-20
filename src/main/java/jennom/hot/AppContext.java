@@ -45,9 +45,9 @@ public class AppContext {
     
     @Bean 
     public ConnectionFactory connectionFactory() {
-        ConnectionFactory amqCF=new ActiveMQConnectionFactory("tcp://localhost:61616");
-        //amqCF.setPassword("admin");
-        //amqCF.setUserName("admin");
+        ActiveMQConnectionFactory amqCF=new ActiveMQConnectionFactory("tcp://localhost:61616");
+        amqCF.setPassword("admin");
+        amqCF.setUserName("activemq");
 	return amqCF;
     }
 
