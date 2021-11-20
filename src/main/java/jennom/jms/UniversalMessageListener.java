@@ -41,14 +41,15 @@ public class UniversalMessageListener implements BeanNameAware {
     @Async
     @JmsListener(destination = "harp07qq", containerFactory = "jmsListenerContainerFactory")
     public void onMessage(Object message) {
-        System.out.println(" >>> Listener INFO: Received object = " + message.getClass().getName());
-        System.out.println(" >>> Listener INFO: Received thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
+        try {
+        System.out.println(" >>> Listener INFO: Received object/text (?) = " + message.getClass());
+        //System.out.println(" >>> Listener INFO: Received thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
         //if (message.getClass().getName().equals("jennom.jms.User")) {
         //if (message instanceof User) { 
         if (message.getClass() == ActiveMQObjectMessage.class) {
             try {
                 ActiveMQObjectMessage activeMQObjectMessage = (ActiveMQObjectMessage) message;
-                //User user = (User) ActiveMQObjectMessage.getObject();
+                //User user = (User) activeMQObjectMessage.getObject();
                 ObjectMessage receivedMessage=(ObjectMessage) jmsTemplate.receive();
                 User user = (User) receivedMessage.getObject();
                 //JOptionPane.showMessageDialog(null, " >>> Listener INFO: Received object user GSON = " + gson.toJson(user), "info", JOptionPane.ERROR_MESSAGE); 
@@ -70,6 +71,9 @@ public class UniversalMessageListener implements BeanNameAware {
             } catch (JMSException ex) {
                 System.out.println("Listener WARNING: JMS error = " + ex.getMessage());
             }                 
+        }
+        } catch (Exception ee) {
+            System.out.println("Listener Exception error = " + ee.getMessage());
         }
     }
     
