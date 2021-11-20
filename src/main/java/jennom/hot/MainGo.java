@@ -29,21 +29,21 @@ public class MainGo extends javax.swing.JFrame {
 
     @PostConstruct
     public void afterBirn() {
+        System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES","*");
         // JMS-test
-        for(int i=1; i < 10; ++i) {
-            user=new User();
-            user.setLogin("oo"+i+i);
-            user.setPassw("oo"+i+i);
-            objSender.sendMessage("harp07qq", user); 
-        }      
         for(int i=1; i < 10; ++i) {
             user=new User();
             user.setLogin("tt"+i+i);
             user.setPassw("tt"+i+i);
             txtSender.sendMessage("harp07qq", gson.toJson(user)); 
             //txtSender.sendMessage("harp07tt", gson.toJson(user));
-        }                 
-
+        } 
+        for(int i=1; i < 10; ++i) {
+            user=new User();
+            user.setLogin("oo"+i+i);
+            user.setPassw("oo"+i+i);
+            objSender.sendMessage("harp07qq", user); 
+        }           
     }
     
     @PreDestroy

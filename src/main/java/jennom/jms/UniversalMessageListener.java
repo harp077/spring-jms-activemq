@@ -42,7 +42,7 @@ public class UniversalMessageListener implements BeanNameAware {
     @JmsListener(destination = "harp07qq", containerFactory = "jmsListenerContainerFactory")
     public void onMessage(Object message) {
         try {
-        System.out.println(" >>> Listener INFO: Received object/text (?) = " + message.getClass());
+        //System.out.println(" >>> Listener INFO: Received object/text (?) = " + message.getClass());
         //System.out.println(" >>> Listener INFO: Received thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
         //if (message.getClass().getName().equals("jennom.jms.User")) {
         //if (message instanceof User) { 
