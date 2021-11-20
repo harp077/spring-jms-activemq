@@ -77,7 +77,8 @@ public class UniversalMessageListener implements BeanNameAware {
         }
     }
     
-    //@JmsListener(destination = "harp07tt")
+    @Async
+    @JmsListener(destination = "harp07tt")
     public void receiveTopic(String message) {
         System.out.println("Отслеживать тему ============= Отслеживать тему");
         System.out.println(message);

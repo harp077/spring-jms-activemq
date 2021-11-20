@@ -42,7 +42,7 @@ public class MessageSenderTxt implements BeanNameAware { //implements MessageSen
         //jmsTemplate.setDeliveryDelay(500L);
         this.jmsTemplate.send(destinationNameQ, (Session session) -> {
             TextMessage jmsMessage = session.createTextMessage(message);
-            jmsMessage.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 9999);
+            //jmsMessage.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 9999);
             System.out.println(">>> Sending txt user: " + jmsMessage.getText());
             //System.out.println(">>> Sending txt user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
             return jmsMessage;

@@ -36,7 +36,7 @@ public class MainGo extends javax.swing.JFrame {
             user.setLogin("tt"+i+i);
             user.setPassw("tt"+i+i);
             txtSender.sendMessage("harp07qq", gson.toJson(user)); 
-            //txtSender.sendMessage("harp07tt", gson.toJson(user));
+            txtSender.sendMessage("harp07tt", gson.toJson(user));
         } 
         for(int i=1; i < 10; ++i) {
             user=new User();

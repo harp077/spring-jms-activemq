@@ -38,10 +38,10 @@ public class AppContext {
         return new ActiveMQQueue("harp07qq");
     }
     
-    /*@Bean
+    @Bean
     public Topic topic(){
         return new ActiveMQTopic("harp07tt");
-    } */   
+    }  
     
     @Bean 
     public ConnectionFactory connectionFactory() {
