@@ -45,9 +45,9 @@ public class AppContext {
     
     @Bean 
     public ConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory amqCF=new ActiveMQConnectionFactory("tcp://localhost:61616");
-        amqCF.setPassword("admin");
-        amqCF.setUserName("activemq");
+        ActiveMQConnectionFactory amqCF=new ActiveMQConnectionFactory("tcp://127.0.0.1:61616");
+        //amqCF.setPassword("admin");
+        //amqCF.setUserName("admin");
 	return amqCF;
     }
 
@@ -66,7 +66,7 @@ public class AppContext {
 	jmsTemplate.setDefaultDestination(queue());
         // then use jmsTemplate.setDeliveryDelay(5000L); in ActiveMQ -> ERROR !!!!!!!
         //jmsTemplate.setDeliveryDelay(5000L);
-        jmsTemplate.setPubSubDomain(true);
+        //jmsTemplate.setPubSubDomain(true);
 	return jmsTemplate;
     }   
     
