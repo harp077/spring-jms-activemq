@@ -38,7 +38,7 @@ public class UniversalMessageListener implements BeanNameAware {
     }      
 
     // ONLY 1-listener for 1-queue !!!
-    @Async
+    //@Async
     @JmsListener(destination = "harp07qq", containerFactory = "jmsListenerContainerFactory")
     public void onMessage(Object message) {
         try {
@@ -77,7 +77,7 @@ public class UniversalMessageListener implements BeanNameAware {
         }
     }
     
-    @Async
+    //@Async
     @JmsListener(destination = "harp07tt")
     public void receiveTopic(String message) {
         System.out.println("Отслеживать тему ============= Отслеживать тему");

@@ -33,12 +33,12 @@ public class MessageSenderObj implements BeanNameAware { //implements MessageSen
     }    
 
     //@Override
-    @Async
+    //@Async
     public void sendMessage(String destinationNameQ, User user) {
         //jmsTemplate.setDeliveryDelay(555L);
         this.jmsTemplate.convertAndSend(destinationNameQ, user);
         //loggerBean.info(" >>> Sending obj user = " + gson.toJson(user));
-        System.out.println(" >>> Sending obj user GSON = " + gson.toJson(user));
+        System.out.println(destinationNameQ + " <<< Sending obj user GSON = " + gson.toJson(user));
         //System.out.println(" >>> Sending obj user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
     }
 

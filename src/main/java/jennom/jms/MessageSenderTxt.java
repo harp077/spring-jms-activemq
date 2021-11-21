@@ -37,13 +37,13 @@ public class MessageSenderTxt implements BeanNameAware { //implements MessageSen
 
     //@Override
     // send like this: {login:"zz", passw:"xx"}
-    @Async
+    //@Async
     public void sendMessage(String destinationNameQ, String message) {
         //jmsTemplate.setDeliveryDelay(500L);
         this.jmsTemplate.send(destinationNameQ, (Session session) -> {
             TextMessage jmsMessage = session.createTextMessage(message);
             //jmsMessage.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 9999);
-            System.out.println(">>> Sending txt user: " + jmsMessage.getText());
+            System.out.println(destinationNameQ + " <<< Sending txt user: " + jmsMessage.getText());
             //System.out.println(">>> Sending txt user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
             return jmsMessage;
         });
