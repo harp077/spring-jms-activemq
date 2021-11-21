@@ -1,21 +1,15 @@
 package jennom.jms;
 
 import com.google.gson.Gson;
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.jms.JMSException;
-import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
 import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.stereotype.Component;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.scheduling.annotation.Async;
-import javax.swing.JOptionPane;
-import jennom.iface.ISDTF;
 
 @Component
 public class UniversalMessageListener implements BeanNameAware {
@@ -23,8 +17,6 @@ public class UniversalMessageListener implements BeanNameAware {
     private String myName;
     @Inject
     private Gson gson;  
-    @Inject
-    private JmsTemplate jmsTemplate;   
     
     @Override
     public void setBeanName(String bname) {

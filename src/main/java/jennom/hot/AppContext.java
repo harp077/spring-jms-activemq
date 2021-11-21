@@ -19,6 +19,10 @@ import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import jennom.jms.JmsExceptionListener;
+import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.jms.support.destination.DestinationResolver;
+import org.springframework.jms.support.destination.DynamicDestinationResolver;
 
 @Configuration
 @ComponentScan(basePackages = {"jennom"})
@@ -26,14 +30,59 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableJms
 public class AppContext {
     
+    private String concurrency = "1-8";
+    private String brokerURL = "tcp://localhost:61616";
+    
     @Bean
     public TaskExecutor taskExecutor() {
         return new SimpleAsyncTaskExecutor();
-    }    
+    }   
+    
+    //=========== new 21-11-2021
+    
+    @Bean
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(JmsExceptionListener jmsExceptionListener) {
+    	DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+	factory.setConnectionFactory(jmsConnectionFactory(jmsExceptionListener));
+	factory.setDestinationResolver(destinationResolver());
+	factory.setConcurrency(concurrency);
+	factory.setPubSubDomain(false);
+	return factory;
+    }
+
+    @Bean
+    public ConnectionFactory jmsConnectionFactory(JmsExceptionListener jmsExceptionListener) {
+    	return createJmsConnectionFactory(brokerURL, jmsExceptionListener);
+    }
+
+    private ConnectionFactory createJmsConnectionFactory(String brokerURI, JmsExceptionListener jmsExceptionListener) {
+	ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(brokerURI);
+	activeMQConnectionFactory.setExceptionListener(jmsExceptionListener);
+	CachingConnectionFactory connectionFactory = new CachingConnectionFactory(activeMQConnectionFactory);
+	return connectionFactory;
+    }
+
+	@Bean(name = "jmsQueueTemplate")
+	public JmsTemplate createJmsQueueTemplate(ConnectionFactory jmsConnectionFactory) {
+		return new JmsTemplate(jmsConnectionFactory);
+	}
+
+	@Bean(name = "jmsTopicTemplate")
+	public JmsTemplate createJmsTopicTemplate(ConnectionFactory jmsConnectionFactory) {
+		JmsTemplate template = new JmsTemplate(jmsConnectionFactory);
+		template.setPubSubDomain(true);
+		return template;
+	}
+
+	@Bean
+	public DestinationResolver destinationResolver() {
+		return new DynamicDestinationResolver();
+	}
+    
     
     /// ========================= JMS ============================
 
-    @Bean
+    /*@Bean
     public Queue queue(){
         return new ActiveMQQueue("harp07qq");
     }
@@ -68,7 +117,9 @@ public class AppContext {
         //jmsTemplate.setDeliveryDelay(5000L);
         //jmsTemplate.setPubSubDomain(true);
 	return jmsTemplate;
-    }   
+    }  */
+    
+    //========================================
     
     @Bean(name = "gson")
     public Gson gson() {

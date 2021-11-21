@@ -19,7 +19,7 @@ public class MessageSenderObj implements BeanNameAware { //implements MessageSen
     @Inject
     private Gson gson;
     @Inject
-    private JmsTemplate jmsTemplate;
+    private JmsTemplate jmsQueueTemplate;
     
     @Override
     public void setBeanName(String bname) {
@@ -36,7 +36,7 @@ public class MessageSenderObj implements BeanNameAware { //implements MessageSen
     //@Async
     public void sendMessage(String destinationNameQ, User user) {
         //jmsTemplate.setDeliveryDelay(555L);
-        this.jmsTemplate.convertAndSend(destinationNameQ, user);
+        this.jmsQueueTemplate.convertAndSend(destinationNameQ, user);
         //loggerBean.info(" >>> Sending obj user = " + gson.toJson(user));
         System.out.println(destinationNameQ + " <<< Sending obj user GSON = " + gson.toJson(user));
         //System.out.println(" >>> Sending obj user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));

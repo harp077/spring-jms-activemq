@@ -22,7 +22,9 @@ public class MessageSenderTxt implements BeanNameAware { //implements MessageSen
     
     private String myName;
     @Inject
-    private JmsTemplate jmsTemplate;
+    private JmsTemplate jmsQueueTemplate;
+    @Inject
+    private JmsTemplate jmsTopicTemplate;    
     
     @Override
     public void setBeanName(String bname) {
@@ -38,9 +40,9 @@ public class MessageSenderTxt implements BeanNameAware { //implements MessageSen
     //@Override
     // send like this: {login:"zz", passw:"xx"}
     //@Async
-    public void sendMessage(String destinationNameQ, String message) {
+    public void sendMessageQ(String destinationNameQ, String message) {
         //jmsTemplate.setDeliveryDelay(500L);
-        this.jmsTemplate.send(destinationNameQ, (Session session) -> {
+        this.jmsQueueTemplate.send(destinationNameQ, (Session session) -> {
             TextMessage jmsMessage = session.createTextMessage(message);
             //jmsMessage.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 9999);
             System.out.println(destinationNameQ + " <<< Sending txt user: " + jmsMessage.getText());
@@ -48,5 +50,16 @@ public class MessageSenderTxt implements BeanNameAware { //implements MessageSen
             return jmsMessage;
         });
     }
+    
+    public void sendMessageT(String destinationNameQ, String message) {
+        //jmsTemplate.setDeliveryDelay(500L);
+        this.jmsTopicTemplate.send(destinationNameQ, (Session session) -> {
+            TextMessage jmsMessage = session.createTextMessage(message);
+            //jmsMessage.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, 9999);
+            System.out.println(destinationNameQ + " <<< Sending txt user: " + jmsMessage.getText());
+            //System.out.println(">>> Sending txt user thread = " + Thread.currentThread().getName()+", run at: " + ISDTF.stf.format(new Date()));
+            return jmsMessage;
+        });
+    }    
    
 }
