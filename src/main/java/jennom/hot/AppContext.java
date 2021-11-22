@@ -70,7 +70,8 @@ public class AppContext {
 	@Bean(name = "jmsTopicTemplate")
 	public JmsTemplate createJmsTopicTemplate(ConnectionFactory jmsConnectionFactory) {
 		JmsTemplate template = new JmsTemplate(jmsConnectionFactory);
-		template.setPubSubDomain(true);
+                // TOPIC NOT LISTEN WITH template.setPubSubDomain(true); !!!!!!!!!!!!!!!!!!
+		//template.setPubSubDomain(true);
 		return template;
 	}
 
